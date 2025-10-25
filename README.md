@@ -48,7 +48,7 @@ http://localhost/phpmyadmin
 - Versi Karyawan (User):  
   `http://localhost/smartclock-pln/user/`
 - Versi HRD (Admin):  
-  `http://localhost/smartclock-pln/hrd/`
+  `http://localhost/smartclock-pln/hrd/login.php`
 
 ## Teknologi yang Digunakan
 
