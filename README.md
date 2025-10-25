@@ -46,9 +46,9 @@ http://localhost/phpmyadmin
 5. Klik menu Import, lalu pilih file: database/smartclock.sql
 6. Setelah proses import selesai, buka aplikasi melalui browser:
 - Versi Karyawan (User):  
-  `http://localhost/smartclock-pln/user/`
+  http://localhost/smartclock-pln/user/
 - Versi HRD (Admin):  
-  `http://localhost/smartclock-pln/hrd/login.php`
+  http://localhost/smartclock-pln/hrd/login.php
 
 ## Teknologi yang Digunakan
 
