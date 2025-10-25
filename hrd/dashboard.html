@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SmartClock HRD Dashboard</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body class="bg-[#edf2f7] font-[Poppins] text-gray-800">
+
+  <!-- HEADER -->
+  <header class="flex justify-between items-center bg-white shadow p-4 sticky top-0 z-20">
+    <div class="flex items-center space-x-3">
+      <img src="assets/logo_pln.png" alt="Logo PLN" class="h-12 w-auto">
+      <h1 class="text-xl font-bold text-[#69c7d9]">SMARTCLOCK HRD</h1>
+    </div>
+
+    <div id="hrd-name" class="text-right flex items-center gap-4"></div>
+  </header>
+
+  <div class="flex min-h-screen">
+    <!-- SIDEBAR -->
+    <aside class="w-64 bg-white shadow-md p-5 space-y-4">
+      <nav class="space-y-2" aria-label="Main menu">
+        <button id="menu-dashboard" class="menu-btn w-full text-left px-3 py-2 rounded-lg active">Dashboard</button>
+        <button id="menu-employees" class="menu-btn w-full text-left px-3 py-2 rounded-lg hover:bg-[#e0f7fa]">Daftar
+          Karyawan</button>
+        <button id="menu-izin" class="menu-btn w-full text-left px-3 py-2 rounded-lg hover:bg-[#e0f7fa]">Daftar
+          Izin</button>
+        <button id="menu-absensi" onclick="window.location.href='absensi.html'"
+          class="menu-btn w-full text-left px-3 py-2 rounded-lg hover:bg-[#e0f7fa]">Daftar Absensi</button>
+        <button id="menu-logout"
+          class="menu-btn w-full text-left px-3 py-2 rounded-lg hover:bg-[#e0f7fa] text-red-500">Logout</button>
+      </nav>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="flex-1 p-6 space-y-6">
+
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-4" id="stat-cards"></div>
+
+      <!-- Chart jam masuk -->
+      <div class="bg-white shadow rounded-xl p-5">
+        <h2 class="text-lg font-semibold mb-3 text-[#69c7d9] text-center">Tren Jam Masuk Karyawan Bulan Ini (HH:MM)</h2>
+        <canvas id="chart-trend" height="160"></canvas>
+      </div>
+
+      <!-- Chart lembur -->
+      <div class="bg-white shadow rounded-xl p-5">
+        <h2 class="text-lg font-semibold mb-3 text-[#69c7d9] text-center">Trend Jam Lembur Karyawan Bulan Ini (HH:MM)
+        </h2>
+        <canvas id="chart-overtime-trend" height="160"></canvas>
+      </div>
+
+      <!-- Konsistensi & Overtime -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="bg-white shadow rounded-xl p-5">
+          <h3 class="text-lg font-semibold mb-3 text-[#69c7d9] text-center">
+            Konsistensi (Tepat Waktu vs Terlambat) — per karyawan
+          </h3>
+
+          <!-- Search bar -->
+          <div class="mb-4">
+            <input type="text" id="search-consistency" placeholder="Cari nama karyawan..."
+              class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#69c7d9]" />
+          </div>
+
+          <!-- Tabel konsistensi -->
+          <div class="overflow-x-auto">
+            <table class="min-w-full border border-gray-200 rounded-lg text-sm" id="table-consistency">
+              <thead class="bg-[#e0f7fa] text-[#007b83]">
+                <tr>
+                  <th class="px-4 py-2 text-left border-b">ID Karyawan</th>
+                  <th class="px-4 py-2 text-left border-b">Nama</th>
+                  <th class="px-4 py-2 text-center border-b">Tepat Waktu (hari)</th>
+                  <th class="px-4 py-2 text-center border-b">Terlambat (hari)</th>
+                </tr>
+              </thead>
+              <tbody id="tbody-consistency">
+                <tr>
+                  <td colspan="4" class="text-center py-4 text-gray-400">Memuat data...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="bg-white shadow rounded-xl p-5">
+          <h3 class="text-lg font-semibold mb-3 text-[#69c7d9] text-center">Lembur — Under vs Over (limit 40 jam/bulan)
+          </h3>
+          <canvas id="chart-overtime" height="140"></canvas>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="js/hrd_main.js"></script>
+</body>
+
+</html>

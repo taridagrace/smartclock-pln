@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <title>Daftar Karyawan - SmartClock HRD</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+</head>
+
+<body class="bg-[#edf2f7] font-[Poppins] text-gray-800">
+
+  <!-- HEADER -->
+  <header class="flex justify-between items-center bg-white shadow p-4 sticky top-0 z-20">
+    <div class="flex items-center space-x-3">
+      <img src="assets/logo_pln.png" alt="Logo PLN" class="h-12 w-auto">
+      <h1 class="text-xl font-bold text-[#69c7d9]">SMARTCLOCK HRD</h1>
+    </div>
+    <div id="hrd-name" class="text-right flex items-center gap-4"></div>
+  </header>
+
+  <div class="flex min-h-screen">
+    <!-- SIDEBAR -->
+    <aside class="w-64 bg-white shadow-md p-5 space-y-4">
+      <nav class="space-y-2">
+        <button onclick="window.location.href='dashboard.html'"
+          class="menu-btn w-full text-left px-3 py-2 rounded-lg hover:bg-[#e0f7fa]">Dashboard</button>
+        <button class="menu-btn w-full text-left px-3 py-2 rounded-lg active">Daftar Karyawan</button>
+        <button onclick="window.location.href='izin.html'"
+          class="menu-btn w-full text-left px-3 py-2 rounded-lg hover:bg-[#e0f7fa]">Daftar Izin</button>
+        <button onclick="window.location.href='absensi.html'"
+          class="menu-btn w-full text-left px-3 py-2 rounded-lg hover:bg-[#e0f7fa]">Daftar Absensi</button>
+        <button id="menu-logout"
+          class="menu-btn w-full text-left px-3 py-2 rounded-lg hover:bg-[#e0f7fa] text-red-500">Logout</button>
+      </nav>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="flex-1 p-8">
+      <div class="bg-white rounded-xl shadow p-6">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-semibold text-[#69c7d9]">DAFTAR KARYAWAN</h3>
+          <div class="flex items-center space-x-2">
+            <label for="searchInput" class="text-sm text-gray-600">Cari:</label>
+            <input type="text" id="searchInput" placeholder="Masukkan nama karyawan..."
+              class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#69c7d9] focus:outline-none w-64" />
+          </div>
+        </div>
+
+        <div class="overflow-x-auto rounded-lg border border-gray-200">
+          <table class="w-full text-sm text-left" id="employees-table">
+            <thead class="bg-[#69c7d9] text-white">
+              <tr>
+                <th class="px-3 py-2">ID</th>
+                <th class="px-3 py-2">Nama</th>
+                <th class="px-3 py-2">Email</th>
+                <th class="px-3 py-2">Jabatan</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Detail Card -->
+      <div class="bg-white rounded-xl shadow p-6 mt-6 hidden" id="employee-detail">
+        <h4 id="detail-name" class="text-lg font-semibold text-[#69c7d9]"></h4>
+        <div id="detail-stats" class="mt-2 text-sm text-gray-700"></div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    async function loadList() {
+      try {
+        const res = await fetch('api/hrd_get_employees.php');
+        const j = await res.json();
+        if (!j.success) return;
+        const tbody = document.querySelector('#employees-table tbody');
+        tbody.innerHTML = '';
+        j.data.forEach(emp => {
+          const tr = document.createElement('tr');
+          tr.className = 'hover:bg-[#f0f9fb] transition';
+          tr.innerHTML = `
+            <td class="px-3 py-2">${emp.id}</td>
+            <td class="px-3 py-2"><a href="#" class="emp-link text-[#0699b0] font-semibold hover:underline" data-id="${emp.id}">${emp.nama}</a></td>
+            <td class="px-3 py-2">${emp.email || '-'}</td>
+            <td class="px-3 py-2">${emp.jabatan || '-'}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+
+        // Search filter
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', () => {
+          const term = searchInput.value.toLowerCase();
+          document.querySelectorAll('#employees-table tbody tr').forEach(row => {
+            const name = row.cells[1]?.textContent.toLowerCase();
+            row.style.display = name.includes(term) ? '' : 'none';
+          });
+        });
+
+        // Detail Karyawan
+        document.querySelectorAll('.emp-link').forEach(a => {
+          a.addEventListener('click', async (e) => {
+            e.preventDefault();
+            const id = a.dataset.id;
+            const res2 = await fetch(`api/hrd_get_employee_detail.php?user_id=${id}`);
+            const j2 = await res2.json();
+            if (j2.success) {
+              document.getElementById('employee-detail').classList.remove('hidden');
+              document.getElementById('detail-name').innerText = a.innerText;
+              document.getElementById('detail-stats').innerHTML = `
+                <p>Hadir: ${j2.data.hadir}</p>
+                <p>Terlambat: ${j2.data.telat}</p>
+                <p>Izin: ${j2.data.izin}</p>
+                <p>Alpha: ${j2.data.alpha}</p>
+                <p>Lembur (jam): ${j2.data.ot}</p>
+              `;
+            }
+          });
+        });
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadList();
+      document.getElementById('menu-logout')?.addEventListener('click', async () => {
+        await fetch('api/hrd_logout.php');
+        window.location.href = 'login.php';
+      });
+    });
+  </script>
+
+  <script src="js/hrd_main.js"></script>
+
+</body>
+</html>

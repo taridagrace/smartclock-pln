@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SmartClock PLN - Pengajuan Izin</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="app-bg d-flex align-items-center justify-content-center">
+  <main class="mobile-frame d-flex flex-column">
+    <section class="header-top small d-flex align-items-center">
+      <a href="dashboard.html" class="ms-2"><img src="assets/back.png" width="22" alt="back"></a>
+      <div class="mx-auto text-light">Leave Request</div>
+      <div style="width:32px"></div>
+    </section>
+
+    <section class="content-card p-3 flex-fill">
+      <div class="mb-2">
+        <label class="form-label small">Type</label>
+        <select id="jenisIzin" class="form-select">
+          <option value="Sakit">Sakit</option>
+          <option value="Izin Pribadi">Izin Pribadi</option>
+          <option value="Cuti">Cuti</option>
+          <option value="Dinas">Dinas</option>
+        </select>
+      </div>
+
+      <div class="mb-2 d-flex gap-2">
+        <input id="startDate" type="date" class="form-control">
+        <input id="endDate" type="date" class="form-control">
+      </div>
+
+      <div class="mb-2">
+        <label class="form-label small">Reason</label>
+        <textarea id="alasan" class="form-control" rows="3"></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label small">Upload</label>
+        <input id="uploadFile" type="file" class="form-control" accept="image/*">
+      </div>
+
+      <div class="d-grid">
+        <button id="submitIzin" class="btn btn-accent">Submit Request</button>
+      </div>
+
+      <div id="izinStatus" class="mt-2 small text-muted"></div>
+    </section>
+  </main>
+
+  <script src="js/script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
