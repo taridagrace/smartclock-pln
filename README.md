@@ -54,6 +54,10 @@ http://localhost/phpmyadmin
 - HTML / CSS / JavaScript
 - Visual Studio Code
 
+## Data yang Digunakan
+
+Seluruh data karyawan, absensi, dan izin/cuti pada aplikasi ini menggunakan **data dummy** (contoh/simulasi) yang dibuat hanya untuk keperluan pengujian dan demo sistem. Tidak ada data pribadi atau data asli karyawan yang digunakan.
+
 ## Cara Update ke GitHub
 
 Setiap kali ada perubahan pada project lokal di VS Code:
