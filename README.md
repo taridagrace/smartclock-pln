@@ -25,16 +25,13 @@ http://localhost/smartclock-pln/hrd/
 
 ## Struktur Folder
 
-smartclock-pln/
-│
-├── database/
-│ └── smartclock.sql # File database MySQL
-│
-├── hrd/ # Halaman dan fitur untuk HRD/Admin
-│
-├── user/ # Halaman dan fitur untuk Karyawan/User
-│
-└── README.md # Dokumentasi project
+- smartclock-pln/
+  - database/
+    - `smartclock.sql` → File database MySQL
+  - hrd/ → Halaman dan fitur untuk HRD/Admin
+  - user/ → Halaman dan fitur untuk Karyawan/User
+  - `README.md` → Dokumentasi project
+
 
 ## Cara Instalasi di Localhost (XAMPP)
 
